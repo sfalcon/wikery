@@ -1,7 +1,8 @@
 (ns wikery.core-test
-  (:require [clojure.test :refer :all]
-            [wikery.core :refer :all]))
+  (:use midje.sweet
+        clojure.java.io)
+  (:require [wikery.core :refer :all]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(fact "wikipedia sample abstracts file is in place"
+      (.exists
+       (as-file "resources/enwiki-latest-abstract23.xml")) => true)
