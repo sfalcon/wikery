@@ -14,4 +14,5 @@
              (query :title :pos 10) => "Wikipedia: Charles Lennox Wyke"))
 
 (facts "about reformatting the parsed file"
-       )
+       (fact "formatting the first title yields..."
+             (wik-format (query :all :pos 1)) =>  ))
