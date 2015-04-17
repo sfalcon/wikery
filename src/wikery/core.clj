@@ -16,3 +16,11 @@
 
 ;;A zipper to navigate the xml structure
 (def wik-zipper (zip/xml-zip parsed-abstracts))
+
+;;I would like to have dynamic querying forms,
+;;so I'm building the base for that here
+(def query-base (partial zx/xml-> wik-zipper :doc))
+
+;;Querying the structure
+(defn query [tag & {:keys [value pos]}]
+  ( nth (query-base tag zx/text) (dec pos)))
