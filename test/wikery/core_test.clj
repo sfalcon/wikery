@@ -8,4 +8,6 @@
       (.exists
        (as-file "resources/enwiki-latest-abstract23.xml")) => true)
 
-(fact "")
+(facts "about parsing the abstracts file"
+       (fact "the first title of the file is -> Wikipedia: Ahmad Reza Pourdastan"
+             (query :title :pos 1) => "Wikipedia: Ahmad Reza Pourdastan"))
