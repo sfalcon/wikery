@@ -11,8 +11,14 @@
        (fact "the first title of the file is -> Wikipedia: Ahmad Reza Pourdastan"
              (query :title :pos 1) => "Wikipedia: Ahmad Reza Pourdastan")
        (fact "the title 10 of the file is ->  Wikipedia: Charles Lennox Wyke"
-             (query :title :pos 10) => "Wikipedia: Charles Lennox Wyke"))
+             (query :title :pos 10) => "Wikipedia: Charles Lennox Wyke")
+       (fact "you can query for all tags (return the node)"
+             (type (query :all :pos 1)) => clojure.data.xml.Element))
+
 
 (facts "about reformatting the parsed file"
-       (fact "formatting the first title yields..."
-             (wik-format (query :all :pos 1)) =>  ))
+       (let [abs-map (abstract->map (query :all :pos 1))]
+         (fact "formatting the first title yields a map with these keys"
+               (keys abs-map) => '(:title :url :abstract))
+         (fact "the title is Wikipedia: Ahmad Reza Pourdastan"
+               (:title abs-map) => "Wikipedia: Ahmad Reza Pourdastan")))

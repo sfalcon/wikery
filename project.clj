@@ -5,7 +5,8 @@
   :license {:name "CDDL-1.0"
             :url "http://opensource.org/licenses/CDDL-1.0"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/data.xml "0.0.8"]]
+                 [org.clojure/data.xml "0.0.8"]
+                 [org.clojure/data.zip "0.1.1"]]
   :plugins [[lein-marginalia "0.8.0"]]
   :aliases {"autotest" ["midje" ":autotest"]}
   :main ^:skip-aot wikery.core
