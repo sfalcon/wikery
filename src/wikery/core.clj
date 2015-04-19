@@ -2,37 +2,31 @@
   (:use clojure.java.io)
   (:require [clojure.data.xml :as xml]
             [clojure.zip :as zip]
-            [clojure.data.zip.xml :as zx])
+            [clojure.data.zip.xml :as zx]
+            [clojure.data.json :as json])
+  (:import org.apache.commons.io.FilenameUtils)
   (:gen-class))
 
-;;Hardcoding the file for starters
-(def abstracts-file "resources/enwiki-latest-abstract23.xml")
+(def ^:private input (ref ""))
 
-;;Let's create a lazy data structure of the parsed xml
-(def parsed-abstracts
-  (-> abstracts-file
-      input-stream
-      xml/parse))
+;;Creates lazy seq with the parsed source
+(defn wik-source->seq [source]
+  (dosync
+   (ref-set input source)
+   (-> source
+       input-stream
+       xml/parse)))
 
-;;A zipper to navigate the xml structure
-(def wik-zipper (zip/xml-zip parsed-abstracts))
-
-;;Preferable to have dynamic querying forms,
-;;this attempts to build a base for that
-(def query-base (partial zx/xml-> wik-zipper :doc))
-
-;;Querying the structure
-(defn query [tag & {:keys [value pos]}]
-  (let [final-query (if (= :all tag)
-                      (partial query-base zip/node)
-                      (partial query-base tag zx/text))]
-    (nth (final-query) (dec pos))))
-
-
-
-;;Convert the structure into the map format desired
+;;Convert a zipper node structure into the record format desired
 (defn abstract->map [node]
-  (let [loc (zip/xml-zip node)]
-    {:title    (zx/xml1-> loc :title    zx/text)
-     :url      (zx/xml1-> loc :url      zx/text)
-     :abstract (zx/xml1-> loc :abstract zx/text)}))
+  (let [loc (zip/xml-zip node)
+        map-keys [:title :url :abstract]
+        qform (fn [key] (zx/xml1-> loc key zx/text))]
+    (apply array-map ;;array-map will respect the order of the keys we set
+           (interleave map-keys (map qform map-keys)))))
+
+;;convert parsed abstracts into json queryable format
+(defn save [abstracts]
+  (with-open [file-name (FilenameUtils/getName @input)
+              out (output-stream (str "resources/" file-name))]
+    (json/write (map abstract->map abstracts)) out))
