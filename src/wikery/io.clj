@@ -4,14 +4,12 @@
   (:require [clojure.data.xml :as xml]
             [clojure.zip :as zip]
             [clojure.data.zip.xml :as zx]
-            [clojure.data.json :as json])
+            [cheshire.core :as json])
   (:import org.apache.commons.io.FilenameUtils)
   (:gen-class))
 
 ;;Last source being worked on
 (def ^:private input (ref ""))
-;;Parsed structure being worked on
-(def ^:private wik-data (ref ""))
 
 ;;Creates lazy seq with the parsed source
 (defn wik-source->seq [source]
@@ -36,37 +34,38 @@
            (interleave map-keys (map qform map-keys)))))
 
 ;;Convert parsed abstracts into json queryable format
-(defn wik-save [abstracts]
+(defn wik-save [source]
   (with-open [out (writer (str "resources/"
-                               (FilenameUtils/getBaseName @input)
+                               (FilenameUtils/getBaseName source)
                                ".json"))]
-    (json/write (map abstract->map abstracts) out)))
+    (json/generate-stream (->> (wik-source->seq source)
+                               :content
+                               (map abstract->map))
+                          out)))
 
 ;;Load stored json, if we don't have a stored file we create it from the URL
 (defn wik-load [source]
   (let [json-file (json-path source)]
-    (if (.exists (as-file json-file))
-      (with-open [in (reader json-file)]
-        (dosync
-         (ref-set wik-data (json/read in :key-fn keyword))))
-      (dosync
-        (wik-save (wik-source->seq source))
-        (wik-load source)))))
+    (dosync
+     (ref-set input source)
+     (if (.exists (as-file json-file))
+       (json/parsed-seq (reader json-file) keyword)
+       (do
+         (wik-save source)
+         (wik-load source))))))
 
 ;;Create a filtering function with a regex pattern
-(defn ^:private def-filter [pattern]
+(defn def-filterf [pattern]
   (fn [doc]
-    (for [[k v] doc :when (or (re-find (doc :title))
-                              (re-find (doc :abstract)))]
-      true) ;;if the pattern is found either in title or abstract return it
-    ))
-
+    (or (re-find pattern (:title doc))
+        (re-find pattern (:abstract doc)) ) ))
 
 (defn wik-query [term]
-  (let [f (def-filter (re-pattern term))]
+  (let [f (def-filterf (re-pattern term))
+        wik-data (first (wik-load @input))]
     (cond (empty? term) ""
-          (empty? @wik-data) ""
+          (empty? wik-data) ""
           :else {
                  :q term
-                 :results (filterv f @wik-data)
+                 :results (filterv f wik-data)
                  })))

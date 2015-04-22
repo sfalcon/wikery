@@ -7,7 +7,7 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/data.xml "0.0.8"]
                  [org.clojure/data.zip "0.1.1"]
-                 [org.clojure/data.json "0.2.6"]
+                 [cheshire "5.4.0"]
                  [org.apache.commons/commons-io "1.3.2"]
                  [compojure "1.3.3"]
                  [ring/ring-json "0.3.1"]]

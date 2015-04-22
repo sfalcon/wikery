@@ -34,17 +34,17 @@
          (fact "there is no file before saving the abstract"
                (exists (json-path sample-source)) => false)
          (fact "and there is a json file after saving it"
-               (wik-save (list (zx/xml1-> zipper :doc zip/node)))
+               (wik-save sample-source)
                (exists (json-path sample-source)) => true))
-  (let [loaded (wik-load sample-source)]
+  (let [loaded (first (wik-load sample-source))]
     (facts "about then loading it"
            (fact "reading it yields a map"
-                 (:title (first loaded))
+                 (:title(first loaded))
                  => "Wikipedia: Ahmad Reza Pourdastan"))
     (facts "about then querying it"
-           (fact "querying for \"Ahmad Reza\" would yield this structure"
-                 (wik-query "Ahmad Reza") =>
-                 {:q "Ahmad Reza",
+           (fact "querying for \"Ahmad\" would yield this structure"
+                 (wik-query "Ahmad") =>
+                 {:q "Ahmad",
                   :results [{
                              :title "Wikipedia: Ahmad Reza Pourdastan"
                              :url "http://en.wikipedia.org/wiki/Ahmad_Reza_Pourdastan"
