@@ -8,8 +8,13 @@
   (:import org.apache.commons.io.FilenameUtils)
   (:gen-class))
 
-;;Last source being worked on
+;;Input source being worked on
 (def ^:private input (ref ""))
+
+;;Set input for queries
+(defn set-src! [source]
+  (dosync
+   (ref-set input source)))
 
 ;;Creates lazy seq with the parsed source
 (defn wik-source->seq [source]
@@ -63,9 +68,11 @@
 (defn wik-query [term]
   (let [f (def-filterf (re-pattern term))
         wik-data (first (wik-load @input))]
-    (cond (empty? term) ""
-          (empty? wik-data) ""
-          :else {
-                 :q term
-                 :results (filterv f wik-data)
-                 })))
+    (do
+      (println term)
+      (cond (empty? term) ""
+            (empty? wik-data) ""
+            :else {
+                   :q term
+                   :results (filterv f wik-data)
+                   }))))
