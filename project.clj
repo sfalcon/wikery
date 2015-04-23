@@ -10,8 +10,7 @@
                  [cheshire "5.4.0"]
                  [org.apache.commons/commons-io "1.3.2"]
                  [compojure "1.3.3"]
-                 [ring "1.3.2"]
-                 [ring/ring-json "0.3.1"]]
+                 [ring "1.3.2"]]
   :plugins [[lein-marginalia "0.8.0"]
             [lein-ring "0.9.3"]]
   :ring {:handler wikery.api/handler}

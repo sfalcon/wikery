@@ -1,36 +1,44 @@
 # wikery
 
-FIXME: description
+Simple web service that queries wikipedia abstracts files. The files are first converted and stored into json format (keeping only title, abstract and url).
 
 ## Installation
 
-Download from http://example.com/FIXME.
+clone the repo + lein deps
 
 ## Usage
 
-FIXME: explanation
+### Running
+    $ lein run
+    or
+    $ lein ring server
 
-    $ java -jar wikery-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
+### Testing
+    $ lein tests
+    $ lein autotest
+    
+### Docs
+    $ lein marg
 
 ## Examples
 
-...
+browser => localhost:port/search?q=Holsmund
+    $ curl -X GET http://localhost:port/search?q=Holsmund
 
 ### Bugs
 
 ...
 
-### Any Other Sections
-### That You Think
-### Might be Useful
+### Improvements? / TODO
+#### Selectable input
+Use parameters or input forms to select what file to parse, it's hardcoded right now
+#### Memoizing
+Queries?
+#### Validating
+Inputs, creating error page
 
 ## License
 
-Copyright © 2015 FIXME
+Copyright © 2015
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the Common Development Public License 1.0
