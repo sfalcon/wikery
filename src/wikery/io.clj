@@ -68,11 +68,9 @@
 (defn wik-query [term]
   (let [f (def-filterf (re-pattern term))
         wik-data (first (wik-load @input))]
-    (do
-      (println term)
-      (cond (empty? term) ""
-            (empty? wik-data) ""
-            :else {
-                   :q term
-                   :results (filterv f wik-data)
-                   }))))
+    (cond (empty? term) ""
+          (empty? wik-data) ""
+          :else {
+                 :q term
+                 :results (filterv f wik-data)
+                 })))
