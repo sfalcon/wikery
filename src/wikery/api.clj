@@ -7,8 +7,11 @@
             [wikery.io :as wik-io]))
 
 ;;Define the source
-;;(def source "http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract23.xml")
+(def src "http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract23.xml")
+
+;;Local source
 (def src "resources/enwiki-latest-abstract23.xml")
+
 ;;Set as input
 (wik-io/set-src! src)
 

@@ -1,5 +1,4 @@
 (ns wikery.io-test
-
   (:use clojure.java.io
         midje.sweet
         wikery.io)

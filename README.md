@@ -9,12 +9,16 @@ clone the repo + lein deps
 ## Usage
 
 ### Running
+On first query, the project will download and convert from http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract23.xml, so it will take time.
+
+Having the file downloaded in resources and changing the hardcoded url of 'wikery.api' to the local file would speed up this process.
+
     $ lein run
     or
     $ lein ring server
 
 ### Testing
-    $ lein tests
+    $ lein test
     $ lein autotest
     
 ### Docs
@@ -22,7 +26,10 @@ clone the repo + lein deps
 
 ## Examples
 
+### 
 browser => localhost:port/search?q=Holsmund
+
+### 
     $ curl -X GET http://localhost:port/search?q=Holsmund
 
 ### Bugs
@@ -41,4 +48,4 @@ Inputs, creating error page
 
 Copyright © 2015
 
-Distributed under the Common Development Public License 1.0
+Distributed under the Common Development and Distribution Public License 1.0
