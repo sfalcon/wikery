@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><head><meta  charset="utf-8" content="text/html" http-equiv="Content-Type" /><meta content="System that reads a wiki format file of abstracts and allows querying" name="description" /><style type="text/css">/**
+<html><head><meta charset="utf-8" content="text/html" http-equiv="Content-Type" /><meta content="System that reads a wiki format file of abstracts and allows querying" name="description" /><style type="text/css">/**
  * SyntaxHighlighter
  * http://alexgorbatchev.com/SyntaxHighlighter
  *
@@ -2872,8 +2872,8 @@ net.brehaut.ClojureTools = (function (SH) {
         ring.middleware.params)
   (:require [cheshire.core :as json]
             [clojure.string :as str]
-            [wikery.io :as wik-io]))</pre></td></tr><tr><td class="docs"><p>Define the source
-(def source "http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract23.xml")</p>
+            [wikery.io :as wik-io]))</pre></td></tr><tr><td class="docs"><p>Define the source</p>
+</td><td class="codes"><pre class="brush: clojure">(def src &quot;http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract23.xml&quot;)</pre></td></tr><tr><td class="docs"><p>Local source</p>
 </td><td class="codes"><pre class="brush: clojure">(def src &quot;resources/enwiki-latest-abstract23.xml&quot;)</pre></td></tr><tr><td class="docs"><p>Set as input</p>
 </td><td class="codes"><pre class="brush: clojure">(wik-io/set-src! src)</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn json-response [data &amp; [status]]
@@ -2945,8 +2945,8 @@ net.brehaut.ClojureTools = (function (SH) {
         wik-data (first (wik-load @input))]
     (do
       (println term)
-      (cond (empty? term)
-            (empty? wik-data)
+      (cond (empty? term) 
+            (empty? wik-data) 
             :else {
                    :q term
                    :results (filterv f wik-data)

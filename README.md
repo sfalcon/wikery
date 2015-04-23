@@ -23,6 +23,7 @@ Having the file downloaded in resources and changing the hardcoded url of 'wiker
     
 ### Docs
     $ lein marg
+http://sfalcon.github.io/wikery/
 
 ## Examples
 
