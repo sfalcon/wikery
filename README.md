@@ -18,10 +18,9 @@ Having the file downloaded in resources and changing the hardcoded url of 'wiker
     $ lein ring server
 
 ### Testing
-    $ lein test
-    $ lein autotest
+    $ lein midje
     
-### Docs
+### Generating Docs
     $ lein marg
 http://sfalcon.github.io/wikery/
 
